@@ -8,4 +8,4 @@ This is script show you how to build project for target plafrom.
 ![](./Slide29.png)
 
 ## Demo: 
-![](./demo.gif)
+[![](./demo.gif)](https://youtu.be/oUbPLE29XX8)
