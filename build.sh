@@ -11,7 +11,7 @@ function showUsage() {
         for instance: 
             build.sh -target ios 
 
-    Input the number to build target for target platform
+    Input the name to build target for specific platform
         [ 'mac', 'win', 'android', 'ios' ]
 
     // Please Install gomobile first
