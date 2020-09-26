@@ -1,6 +1,6 @@
 # build_script_for_CI
 
-This is script show you how to build project for target plafrom.
+This is script show you how to build project for target plafrom by using gomobile
 
 ![](./usage.png)
 
