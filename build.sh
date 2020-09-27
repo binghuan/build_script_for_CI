@@ -86,7 +86,7 @@ function buildTarget() {
     "win")
         echo "Building for Windows"
         SET CGO_ENABLED=0
-        SET GOOS=darwin
+        SET GOOS=windows
         SET GOARCH=amd64
         buildForPlatform "win" "desktop_libs"
         ;;
