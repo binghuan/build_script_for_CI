@@ -85,16 +85,16 @@ function buildTarget() {
         ;;
     "win")
         echo "Building for Windows"
-        SET CGO_ENABLED=0
-        SET GOOS=windows
-        SET GOARCH=amd64
+        set CGO_ENABLED=0
+        set GOOS=windows
+        set GOARCH=amd64
         buildForPlatform "win" "desktop_libs"
         ;;
     "mac")
         echo "Building for macOS"
-        SET CGO_ENABLED=0
-        SET GOOS=darwin
-        SET GOARCH=amd64
+        set CGO_ENABLED=0
+        set GOOS=darwin
+        set GOARCH=amd64
         buildForPlatform "mac" "desktop_libs"
         ;;
     *)
