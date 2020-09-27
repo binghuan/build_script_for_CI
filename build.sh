@@ -59,6 +59,9 @@ function buildForPlatform() {
 
     echo "> check out ... ${OUTPUT_LIBRARY}"
     if [ -f "${OUTPUT_LIBRARY}" ]; then
+        if [ "${platform}" == "mac" ]; then
+            chmod a+x "${OUTPUT_LIBRARY}"
+        fi
         zip -r ${OUTPUT_ZIP_FILE} ${OUTPUT_LIBRARY_FOLDER}/*
         echo "\n  ^_^b Successfully built!!\n"
     else
