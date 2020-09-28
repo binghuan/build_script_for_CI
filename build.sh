@@ -33,11 +33,11 @@ function buildForPlatform() {
     if [ "${platform}" == "win" ]; then
         OUTPUT_LIBRARY_FOLDER="out/desktop/${platform}/anv"
         OUTPUT_LIBRARY="${OUTPUT_LIBRARY_FOLDER}/${outpufFile}.exe"
-        cmdBuild="time go build -o ${OUTPUT_LIBRARY}"
+        cmdBuild="time CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o ${OUTPUT_LIBRARY}"
     elif [ "${platform}" == "mac" ]; then
         OUTPUT_LIBRARY_FOLDER="out/desktop/${platform}/anv"
         OUTPUT_LIBRARY="${OUTPUT_LIBRARY_FOLDER}/${outpufFile}"
-        cmdBuild="time go build -o ${OUTPUT_LIBRARY}"
+        cmdBuild="time CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o ${OUTPUT_LIBRARY}"
     else
         OUTPUT_LIBRARY_FOLDER="out/${platform}/anv"
         OUTPUT_LIBRARY="${OUTPUT_LIBRARY_FOLDER}/${outpufFile}"
@@ -88,16 +88,10 @@ function buildTarget() {
         ;;
     "win")
         echo "Building for Windows"
-        set CGO_ENABLED=0
-        set GOOS=windows
-        set GOARCH=amd64
         buildForPlatform "win" "desktop_libs"
         ;;
     "mac")
         echo "Building for macOS"
-        set CGO_ENABLED=0
-        set GOOS=darwin
-        set GOARCH=amd64
         buildForPlatform "mac" "desktop_libs"
         ;;
     *)
