@@ -23,6 +23,19 @@ function timestamp() {
     printf "$(date +"%m-%d-%y %H:%M:%S")"
 }
 
+function clearOutput() {
+    outputLibFolder=$1
+
+    echo "> Clean output folder ... ${outputLibFolder}"
+    rm -rf ${outputLibFolder}
+
+    if [ ! -d "${outputLibFolder}" ]; then
+        mkdir -p ${outputLibFolder}
+    fi
+
+    echo "> Clean output folder ... done!"
+}
+
 function buildForPlatform() {
 
     platform=$1
@@ -32,29 +45,24 @@ function buildForPlatform() {
 
     if [ "${platform}" == "win" ]; then
         OUTPUT_LIBRARY_FOLDER="out/desktop/${platform}/anv"
+        clearOutput ${OUTPUT_LIBRARY_FOLDER}
         OUTPUT_LIBRARY="${OUTPUT_LIBRARY_FOLDER}/${outpufFile}.exe"
-        cmdBuild="time CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o ${OUTPUT_LIBRARY}"
+        time CGO_ENABLED=1 GOOS=windows GOARCH=amd64 CC=x86_64-w64-mingw32-gcc CXX=x86_64-w64-mingw32-g++ go build -o ${OUTPUT_LIBRARY} ./desktop/main.go
     elif [ "${platform}" == "mac" ]; then
         OUTPUT_LIBRARY_FOLDER="out/desktop/${platform}/anv"
+        clearOutput ${OUTPUT_LIBRARY_FOLDER}
+        mkdir -p ${OUTPUT_LIBRARY_FOLDER}
         OUTPUT_LIBRARY="${OUTPUT_LIBRARY_FOLDER}/${outpufFile}"
-        cmdBuild="time CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o ${OUTPUT_LIBRARY}"
+        mkdir -p ${OUTPUT_LIBRARY_FOLDER}
+        echo "output file to ${OUTPUT_LIBRARY}"
+        time CGO_ENABLED=1 GOOS=darwin GOARCH=amd64 go build -o ${OUTPUT_LIBRARY} ./desktop/main.go
     else
         OUTPUT_LIBRARY_FOLDER="out/${platform}/anv"
+        clearOutput ${OUTPUT_LIBRARY_FOLDER}
         OUTPUT_LIBRARY="${OUTPUT_LIBRARY_FOLDER}/${outpufFile}"
-        cmdBuild="time gomobile bind -target=${platform} -v -o ${OUTPUT_LIBRARY}"
+        time gomobile bind -target=${platform} -v -o ${OUTPUT_LIBRARY}
     fi
 
-    echo "> Clean output folder ... ${OUTPUT_LIBRARY_FOLDER}"
-    rm -rf ${OUTPUT_LIBRARY_FOLDER}
-
-    if [ ! -d "${OUTPUT_LIBRARY_FOLDER}" ]; then
-        mkdir -p ${OUTPUT_LIBRARY_FOLDER}
-    fi
-
-    OUTPUT_ZIP_FILE="${OUTPUT_LIBRARY_FOLDER}/${platform}_anv.zip"
-
-    echo "$(timestamp) RUN COMMAND --> ${cmdBuild}"
-    $(${cmdBuild})
     OUTPUT_ZIP_FILE="${OUTPUT_LIBRARY_FOLDER}/${platform}_anv.zip"
 
     echo "> check out ... ${OUTPUT_LIBRARY}"
